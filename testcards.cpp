@@ -42,23 +42,49 @@ void test_card(){
 }
 
 
-void test_append_empty_list(){ 
-// A test case for append single card node to LinkedList
+void test_append_empty_list(){
+    CardList list1;
+    Card card('h', '6');
+    list1.Append(card);
+    if (list1.GetTopCard()) {
+      cout << "test_append_empty_list() PASSED";
+    }
+    else {
+      cout << "test_append_empty_list() FAILED";
+    }
 }
 
 void test_append_single_element_list(){ 
-  // Tests cases should be independent,
-    // small, fast, orthogonal (test for different cases)
-
+  CardList list1;
+  Card card('h', '6');
+  Card card2('c', '4');
+  list1.Append(card);
+  list1.Append(card2);
+  if (*list1.GetTopCard() == card) {
+    cout << "test_append_single_element_list() PASSED";
+  }
+  else {
+    cout << "test_append_single_element_list() FAILED";
+  }
 }
 void test_equal_empty_list(){ 
   string testname = "case 0: [], []";
-  LinkedList l1, l2;
-  assertEquals(l1.head,l2.head);
+  CardList l1, l2;
+  //assertEquals(l1.GetTopCard(),l2.GetTopCard(), "assertEquals()");
 }
 
 void test_card_operator_double_equal(){
-  // Test to check if == is overloaded for card
+  Card* card1 = new Card('h', '6');
+  Card* card2 = new Card('h', '6');
+  bool equals = false;
+  if (card1==card2){
+    equals = true;
+  }
+  if (!equals) {
+    cout << "test_card_operator_double_equal() FAILED" << endl;
+  }
+  delete card1;
+  delete card2;
 }
 
 
