@@ -6,48 +6,42 @@
 #include <string>
 using namespace std;
 
-//creates shallow copy
-Card Card::operator=(Card card) {
+//creates deep copy
+Card Card::operator=(Card& card) {
     this->value = card.value;
     this->suit = card.suit;
+    this->prev = card.prev;
+    this->next = card.next;
+
     return *this;
-}
-void Card::print() {
-    cout << suit << " " << value << endl;
 }
 bool Card::operator==(const Card& card)const {
     return ((this->value == card.value) && (this->suit == card.suit));
 }
-bool Card::operator==(const Card* card)const {
-    return ((this->value == card->value) && (this->suit == card->suit));
-} 
-bool CardList::CompareLists(CardList cards1, CardList cards2) {
-    Card* head = cards1.GetTopCard();
-    bool Same = false;
-    while(head){
-        if (cards2.SearchForCard(head)) {
-            Same = true;
-            return Same;
-        }
-        head = head->next;
-    }
-    return Same;
+
+void Card::print() {
+    cout << suit << " " << value << endl;
 }
+
 Card* CardList::SearchForCard(Card* card) {
     Card* searchCard = head;
+    if(!searchCard) {return NULL;}
     while (searchCard) {
-        if ((searchCard->suit == card->suit) && (searchCard->value == card->value)) {
+        if (*searchCard == *card) {
             return searchCard;
         }
-        else {searchCard = searchCard->next;}
+        else {
+            searchCard = searchCard->next;
+        }
     }
     return NULL;
 }
 
 void CardList::Remove(Card* card) {
-    if (!card) {return;}
-    Card* nextcard = card->next;
-    Card* prevcard = card->prev;
+    Card* RemoveCard = SearchForCard(card);
+    if (!RemoveCard) {return;}
+    Card* nextcard = RemoveCard->next;
+    Card* prevcard = RemoveCard->prev;
     if (nextcard) {
         nextcard->prev = prevcard;
     }
@@ -62,8 +56,9 @@ void CardList::Remove(Card* card) {
         tail = prevcard;
         tail->next = nullptr;
     }
-    delete card;
-
+    if(RemoveCard) {
+       delete RemoveCard; 
+    }
 }
    
 
@@ -74,8 +69,6 @@ void CardList::Append(Card card) {
         tail = newcard;
         head->prev = nullptr;
         head->next = nullptr;
-        tail->next = nullptr;
-        tail->prev = nullptr;
     }
     if(!head->next) {
         newcard->prev = head;
@@ -101,35 +94,8 @@ CardList::~CardList() {
     }
 }
 
-//deletes original Card List and updates it with new Card List cards
-/*CardList CardList::operator=(CardList* CardList) {
-    while(this->head) {
-        this->head = this->head->next;
-        delete this->head->prev;
-    }
-    this->head = new Card;
-    if (!CardList->head) {
-        return *this;
-    }
-    else {
-        this->head = CardList->head;
-    }
-    Card* newCard = new Card;
-    newCard->next = nullptr;
-    newCard->prev = head;
-    head->next = newCard;
-    Card* tempCard = CardList->head->next;
-    while(tempCard) {
-        newCard = tempCard; //uses overloaded operator
-        tempCard = tempCard->next;
-        newCard = newCard->next;
-        newCard->next = nullptr;
-    }
-    tail = newCard; //tail equals to the last newCard
-    return *this;
-}*/
 
-void CardList::Print() const{
+void CardList::PrintAll() const{
     Card* printcard = head;
     while(printcard) {
         if(printcard->prev) {
@@ -148,6 +114,13 @@ void CardList::Print() const{
         else {
 
         }
+    }
+}
+void CardList::print() const {
+    Card* printcard = head;
+    while (printcard) {
+        printcard->print();
+        printcard = printcard->next;
     }
 }
 

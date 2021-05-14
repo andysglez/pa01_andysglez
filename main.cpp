@@ -50,47 +50,45 @@ int main(int argv, char** argc){
   
   cout << "cards2:" << endl;
   cards2.Print();*/
-  
+
   // Start the game
-  while(!CompareLists(cards1, cards2)) {
-    Card* head = cards1.GetTopCard();
-    while(head) {
-      Card* card = NULL;
-      if(cards2.SearchForCard(head)){
-        card = cards2.SearchForCard(head);
-      }
-      if(card) {
-        cout << "A picked matching card:" << card->suit << " " << card->value << endl;
-        cards1.Remove(head);
-        cards2.Remove(card);
+  Card* tempcard = cards1.GetTopCard();
+  Card* tempcard2 = cards2.GetTopCard();
+  while(tempcard || tempcard2) {
+    while (tempcard) { //Alice's turn
+      Card* SameCard = cards2.SearchForCard(tempcard);
+      if (SameCard) {
+        cout << "Alice picked matching card: ";
+        tempcard->print();
+        cards1.Remove(tempcard);
+        cards2.Remove(SameCard);
         break;
       }
-      head = head->next; 
+      tempcard = tempcard->next;
     }
-    head = cards2.GetTopCard();
-    while(head) {
-      Card* card = NULL;
-      if(cards1.SearchForCard(head)){
-        card = cards1.SearchForCard(head);
-      }
-      if(card) {
-        cout << "B picked matching card:" << card->suit << " " << card->value << endl;
-        cards1.Remove(head);
-        cards2.Remove(card);
+    while (tempcard2) { //Bob's turn;
+      Card* SameCard = cards1.SearchForCard(tempcard2);
+      if (SameCard) {
+        cout << "Bob picked matching card: ";
+        tempcard2->print();
+        cards2.Remove(tempcard2);
+        cards1.Remove(SameCard);
         break;
       }
-      head = head->next;
+      tempcard2 = tempcard2->next;
     }
+    if (!tempcard || !tempcard2) { //if either player reaches the end of their deck
+      cout << endl;
+      cout << "Alice's cards:" << endl;
+      cards1.print();
+      cout << "Bobs's cards:" << endl;
+      cards2.print();
+      break;
+    }
+    tempcard = cards1.GetTopCard();
+    tempcard2 = cards2.GetTopCard();
   }
-
-  /*cout << "cards1:" << endl;
-  cards1.Print();
   
-  cout << "cards2:" << endl;
-  cards2.Print();*/
-  
-  
-
 
   return 0;
 }

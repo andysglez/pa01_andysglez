@@ -23,9 +23,8 @@ using namespace std;
 struct Card {
     Card() {suit = 'h'; value = '6';};
     Card(char Suit, char val) {suit = Suit; value = val;};
-    Card operator=(Card card);
+    Card operator=(Card& card);
     bool operator==(const Card& card) const;
-    bool operator==(const Card* card) const;
     char suit;
     char value;
     Card* next;
@@ -37,18 +36,13 @@ class CardList {
     public:
         void Append(Card card);
         void Remove(Card* card);
-        void Print() const;
+        void PrintAll() const;
+        void print() const;
         ~CardList();
         Card* SearchForCard(Card* card);
-        CardList() {head = nullptr; tail = nullptr;};
-        void SearchRemove(Card* card);
-        Card* GetNextCard(Card* card);
+        CardList() {head = NULL; tail = NULL;};
         Card* GetTopCard() {return head;};
-        bool CompareLists(CardList cards1, CardList cards2);
-        //Card* getFirstCard() {return head;};
-        //CardList operator<<(const CardList cardlist);
     private:
-        
         Card* head;
         Card* tail;
         

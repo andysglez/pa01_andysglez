@@ -13,9 +13,13 @@ int main(){
 }
 
 void runAll(){
-  test_append();
+  //test_append();
   test_equal();
   test_card();
+  //test_constructor();
+  //test_destructor();
+  test_remove();
+  //test_search();
 }
 
 void test_append(){
@@ -25,6 +29,14 @@ void test_append(){
   END_TEST("test_append");
 
 }
+
+void test_remove(){
+  START_TEST("test_remove");
+  test_remove_card();
+  END_TEST("test_remove");
+
+}
+
 
 void test_equal(){
   START_TEST("test_equal");
@@ -37,56 +49,67 @@ void test_equal(){
 void test_card(){
   START_TEST("test_card");
   test_card_operator_double_equal();
-  //test_equal_single_element_list();
   END_TEST("test_card");
 }
 
 
 void test_append_empty_list(){
-    CardList list1;
-    Card card('h', '6');
-    list1.Append(card);
-    if (list1.GetTopCard()) {
-      cout << "test_append_empty_list() PASSED";
-    }
-    else {
-      cout << "test_append_empty_list() FAILED";
-    }
+    CardList cards1;
+    Card card('h', '4');
+    cards1.Append(card);
 }
 
-void test_append_single_element_list(){ 
+void test_append_single_element_list(){
   CardList list1;
   Card card('h', '6');
   Card card2('c', '4');
   list1.Append(card);
   list1.Append(card2);
-  if (*list1.GetTopCard() == card) {
-    cout << "test_append_single_element_list() PASSED";
+  if (list1.GetTopCard()) {
+    cout << "PASSED";
   }
   else {
-    cout << "test_append_single_element_list() FAILED";
+    cout << "FAILED";
   }
 }
-void test_equal_empty_list(){ 
+void test_equal_empty_list(){
   string testname = "case 0: [], []";
   CardList l1, l2;
-  //assertEquals(l1.GetTopCard(),l2.GetTopCard(), "assertEquals()");
+  assertEquals(l1.GetTopCard(),l2.GetTopCard(), "assertEquals()");
 }
 
 void test_card_operator_double_equal(){
   Card* card1 = new Card('h', '6');
   Card* card2 = new Card('h', '6');
   bool equals = false;
-  if (card1==card2){
+  if (*card1==*card2){
     equals = true;
+    cout << "PASSED" << endl;
   }
   if (!equals) {
-    cout << "test_card_operator_double_equal() FAILED" << endl;
+    cout << "FAILED" << endl;
   }
   delete card1;
   delete card2;
 }
 
+void test_remove_card() {
+  CardList cards1;
+  Card card1('h', '4'), card2('d', '7'), card3('c', '3');
+  cards1.Append(card1);
+  cards1.Append(card2);
+  cards1.Append(card3);
+  Card* cardRemoved = new Card;
+  *cardRemoved =  card2;
+  cards1.Remove(cardRemoved);
+  if (cards1.SearchForCard(cardRemoved) == NULL) {
+    cout << "PASSED" << endl;
+  }
+  else {
+    cout << "FAILED" << endl;
+  }
+  delete cardRemoved;
+}
 
 
 
