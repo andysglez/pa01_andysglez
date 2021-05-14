@@ -19,6 +19,8 @@ void test_card();
 void test_destructor();
 void test_remove();
 void test_search();
+void test_search_card();
+void test_search_null();
 void test_append_empty_list(); // A test case for append
 void test_append_single_element_list(); // Tests cases should be independent,
             // small, fast, orthogonal
@@ -52,7 +54,7 @@ void assertEquals(int expected, int actual, string testDescription){
 
 // You should add more assertEquals function for your classes. For example, Node/Card class
 
-void assertEquals(Card *expected, Card *actual, string testDescription){
+void assertEquals(Card* expected, Card* actual, string testDescription){
   if (expected == actual) {
     cout<<"PASSED " << endl;
   } else {

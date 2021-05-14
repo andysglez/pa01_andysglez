@@ -67,10 +67,10 @@ void CardList::Append(Card card) {
     if(!head){
         head = newcard;
         tail = newcard;
-        head->prev = nullptr;
-        head->next = nullptr;
+        head->prev = NULL;
+        head->next = NULL;
     }
-    if(!head->next) {
+    else if(!head->next) {
         newcard->prev = head;
         newcard->next = nullptr;
         tail = newcard;

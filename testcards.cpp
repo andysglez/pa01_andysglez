@@ -13,19 +13,19 @@ int main(){
 }
 
 void runAll(){
-  //test_append();
+  test_append();
   test_equal();
   test_card();
   //test_constructor();
   //test_destructor();
   test_remove();
-  //test_search();
+  test_search();
 }
 
 void test_append(){
   START_TEST("test_append");
   test_append_empty_list();
-  test_append_single_element_list();
+  //test_append_single_element_list();
   END_TEST("test_append");
 
 }
@@ -36,7 +36,12 @@ void test_remove(){
   END_TEST("test_remove");
 
 }
-
+void test_search() {
+  START_TEST("test_search");
+  test_search_card();
+  test_search_null();
+  END_TEST("test_search");
+}
 
 void test_equal(){
   START_TEST("test_equal");
@@ -57,6 +62,12 @@ void test_append_empty_list(){
     CardList cards1;
     Card card('h', '4');
     cards1.Append(card);
+    if (*cards1.GetTopCard() == card) {
+      cout << "PASSED\n";
+    }
+    else {
+      cout << "FAILED test_append_empty_list()\n";
+    }
 }
 
 void test_append_single_element_list(){
@@ -66,10 +77,10 @@ void test_append_single_element_list(){
   list1.Append(card);
   list1.Append(card2);
   if (list1.GetTopCard()) {
-    cout << "PASSED";
+    cout << "PASSED\n";
   }
   else {
-    cout << "FAILED";
+    cout << "FAILED test_append_single_element_list\n";
   }
 }
 void test_equal_empty_list(){
@@ -109,6 +120,39 @@ void test_remove_card() {
     cout << "FAILED" << endl;
   }
   delete cardRemoved;
+}
+void test_search_card() {
+  CardList cards1;
+  Card card1('h', '4'), card2('d', '7'), card3('c', '3');
+  cards1.Append(card1);
+  cards1.Append(card2);
+  cards1.Append(card3);
+  Card* searchcard= new Card;
+  *searchcard =  card2;
+  if(cards1.SearchForCard(searchcard)) {
+    cout << "PASSED" << endl;
+  }
+  else {
+    cout << "FAILED" << endl;
+  }
+  delete searchcard;
+  
+}
+void test_search_null() {
+  CardList cards1;
+  Card card1('h', '4'), card2('d', '7'), card3('c', '3');
+  cards1.Append(card1);
+  cards1.Append(card2);
+  cards1.Append(card3);
+  Card* searchcard= new Card('c', 'q');
+  if(!cards1.SearchForCard(searchcard)) {
+    cout << "PASSED" << endl;
+  }
+  else {
+    cout << "FAILED" << endl;
+  }
+  delete searchcard;
+
 }
 
 
